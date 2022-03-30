@@ -27,12 +27,18 @@ import {
 } from '../../actions/accounts';
 
 import {
+    getDelegatedValidatorsDetails,
+} from '../../actions/stake';
+
+
+import {
     hideDelegateDialog,
     showDelegateFailedDialog,
     showDelegateProcessingDialog,
     showDelegateSuccessDialog,
 } from '../../actions/stake';
 import { showMessage } from '../../actions/snackbar';
+import { MsgClaim } from '../../generated/src/proto/msg_claim';
 
 
 class Home extends Component {
@@ -88,13 +94,14 @@ class Home extends Component {
     handleClaimTxnKeplr(address) {
         this.setState({ inProgress: true });
         let gasValue = gas.claim_reward;
+
         const claimTx = {
             msg: {
                 typeUrl: '/passage3d.claim.v1beta1.MsgClaim',
-                value: {
+                value: MsgClaim.fromPartial({
                     sender: address,
-                    claimAction: "ActionInitialClaim"
-                },
+                    claim_action: "ActionInitialClaim",
+                }),
             },
             fee: {
                 amount: [
@@ -107,31 +114,6 @@ class Home extends Component {
             },
             memo: '',
         };
-
-        // pasg1x70xmz85f7kpqf4n20vpx8rnpj5c5c7t3vkjm5
-        // const msg = {
-        //     msg: {
-        //         typeUrl: "/cosmos.bank.v1beta1.MsgSend",
-        //         value: {
-        //             fromAddress: address,
-        //             toAddress: "pasg1x70xmz85f7kpqf4n20vpx8rnpj5c5c7t3vkjm5",
-        //             amount: [{
-        //                 amount: "100",
-        //                 denom: config.COIN_MINIMAL_DENOM
-        //             }],
-        //         },
-        //     },
-        //     fee: {
-        //         amount: [
-        //             {
-        //                 amount: String(gasValue * config.GAS_PRICE_STEP_AVERAGE),
-        //                 denom: config.COIN_MINIMAL_DENOM,
-        //             }
-        //         ],
-        //         gas: String(gasValue),
-        //     },
-        //     memo: '',
-        // }
 
         signTxAndBroadcast(claimTx, address, (error, result) => {
             this.setState({ inProgress: false });
@@ -271,6 +253,7 @@ const stateToProps = (state) => {
     };
 };
 
+
 const actionToProps = {
     handleClose: hideDelegateDialog,
     successDialog: showDelegateSuccessDialog,
@@ -281,6 +264,7 @@ const actionToProps = {
     getBalance,
     getDelegations,
     getUnBondingDelegations,
+    getDelegatedValidatorsDetails,
     showMessage,
 };
 

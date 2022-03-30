@@ -1,0 +1,21 @@
+syntax = "proto3";
+package passage3d.claim.v1beta1;
+
+
+option go_package = "github.com/envadiv/passage3d/x/claim/types";
+
+// Msg defines the Msg service.
+service Msg {
+  // InitialClaim defines RPC service for claim
+  rpc Claim(MsgClaim) returns (MsgClaimResponse);
+}
+
+// MsgInitialClaim defines request message for InitialClaim RPC request
+message MsgClaim {
+  string sender = 1;
+  string claim_action = 2;
+}
+
+// MsgInitialClaimResponse defines response for InitialClaim RPC request
+message MsgClaimResponse {
+}

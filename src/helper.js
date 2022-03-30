@@ -1,8 +1,10 @@
 import { REST_URL, RPC_URL } from './constants/url';
-import { SigningStargateClient } from '@cosmjs/stargate';
+import { defaultRegistryTypes, SigningStargateClient } from '@cosmjs/stargate';
 import { SigningCosmosClient } from '@cosmjs/launchpad';
 import { makeSignDoc } from '@cosmjs/amino';
 import { config } from './config';
+import { Registry } from '@cosmjs/proto-signing';
+import { MsgClaim } from './generated/src/proto/msg_claim';
 
 const chainId = config.CHAIN_ID;
 const chainName = config.CHAIN_NAME;
@@ -94,11 +96,24 @@ export const initializeChain = (cb) => {
 export const signTxAndBroadcast = (tx, address, cb) => {
     (async () => {
         await window.keplr && window.keplr.enable(chainId);
-        const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+        const offlineSigner = window.getOfflineSigner && window.keplr.getOfflineSigner(chainId);
+
+
+        let registry = new Registry()
+        defaultRegistryTypes.forEach((v) => {
+            registry.register(v[0], v[1])
+        })
+
+        registry.register("/passage3d.claim.v1beta1.MsgClaim", MsgClaim)
+
         const client = await SigningStargateClient.connectWithSigner(
             RPC_URL,
             offlineSigner,
+            {
+                registry: registry
+            }
         );
+
         client.signAndBroadcast(
             address,
             tx.msgs ? tx.msgs : [tx.msg],
@@ -120,6 +135,8 @@ export const cosmosSignTxAndBroadcast = (tx, address, cb) => {
     (async () => {
         await window.keplr && window.keplr.enable(chainId);
         const offlineSigner = window.getOfflineSignerOnlyAmino && window.getOfflineSignerOnlyAmino(chainId);
+
+
         const cosmJS = new SigningCosmosClient(
             REST_URL,
             address,
