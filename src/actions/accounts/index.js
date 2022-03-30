@@ -3,6 +3,8 @@ import {
     BALANCE_FETCH_ERROR,
     BALANCE_FETCH_IN_PROGRESS,
     BALANCE_FETCH_SUCCESS,
+    CLAIM_RECORDS_FETCH_IN_PROGRESS,
+    CLAIM_RECORDS_FETCH_SUCCESS,
     DELEGATIONS_FETCH_ERROR,
     DELEGATIONS_FETCH_IN_PROGRESS,
     DELEGATIONS_FETCH_SUCCESS,
@@ -23,6 +25,7 @@ import {
 import Axios from 'axios';
 import {
     urlFetchBalance,
+    urlFetchClaimRecords,
     urlFetchDelegations,
     urlFetchRewards,
     urlFetchUnBondingDelegations,
@@ -183,9 +186,23 @@ const fetchUnBondingDelegationsInProgress = () => {
     };
 };
 
+const fetchClaimRecordsInProgress = () => {
+    return {
+        type: CLAIM_RECORDS_FETCH_IN_PROGRESS,
+    };
+};
+
+
 const fetchUnBondingDelegationsSuccess = (value) => {
     return {
         type: UN_BONDING_DELEGATIONS_FETCH_SUCCESS,
+        value,
+    };
+};
+
+const fetchClaimRecordSuccess = (value) => {
+    return {
+        type: CLAIM_RECORDS_FETCH_SUCCESS,
         value,
     };
 };
@@ -274,4 +291,29 @@ export const disconnectSet = () => {
     return {
         type: DISCONNECT_SET,
     };
+};
+
+
+export const getClaimRecord = (address) => (dispatch) => {
+    dispatch(fetchClaimRecordsInProgress());
+    const url = urlFetchClaimRecords(address);
+    Axios.get(url, {
+        headers: {
+            Accept: 'application/json, text/plain, */*',
+            Connection: 'keep-alive',
+        },
+    })
+        .then((res) => {
+            dispatch(fetchClaimRecordSuccess(res.data));
+        })
+        .catch((error) => {
+            console.log('error', error)
+            dispatch(fetchUnBondingDelegationsError(
+                error.response &&
+                error.response.data &&
+                error.response.data.message
+                    ? error.response.data.message
+                    : 'Failed!',
+            ));
+        });
 };

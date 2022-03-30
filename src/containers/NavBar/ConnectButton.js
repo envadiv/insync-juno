@@ -7,6 +7,7 @@ import {
     fetchRewards,
     fetchVestingBalance,
     getBalance,
+    getClaimRecord,
     getDelegations,
     getUnBondingDelegations,
     setAccountAddress,
@@ -16,6 +17,7 @@ import { connect } from 'react-redux';
 import { showMessage } from '../../actions/snackbar';
 import { encode } from 'js-base64';
 import { getDelegatedValidatorsDetails } from '../../actions/stake';
+
 
 const ConnectButton = (props) => {
     const [inProgress, setInProgress] = useState(false);
@@ -40,6 +42,7 @@ const ConnectButton = (props) => {
                 props.getDelegations(addressList[0] && addressList[0].address);
             }
             props.getBalance(addressList[0] && addressList[0].address);
+            props.getClaimRecord(addressList[0] && addressList[0].address)
             props.fetchVestingBalance(addressList[0] && addressList[0].address);
             if (!props.proposalTab) {
                 props.getDelegatedValidatorsDetails(addressList[0] && addressList[0].address);
@@ -90,6 +93,7 @@ const actionsToProps = {
     getBalance,
     getUnBondingDelegations,
     fetchRewards,
+    getClaimRecord
 };
 
 export default connect(stateToProps, actionsToProps)(ConnectButton);

@@ -4,6 +4,8 @@ import {
     BALANCE_FETCH_ERROR,
     BALANCE_FETCH_IN_PROGRESS,
     BALANCE_FETCH_SUCCESS,
+    CLAIM_RECORDS_FETCH_IN_PROGRESS,
+    CLAIM_RECORDS_FETCH_SUCCESS,
     DELEGATIONS_FETCH_ERROR,
     DELEGATIONS_FETCH_IN_PROGRESS,
     DELEGATIONS_FETCH_SUCCESS,
@@ -26,19 +28,19 @@ const address = (state = {
     value: '',
 }, action) => {
     switch (action.type) {
-    case ACCOUNT_ADDRESS_SET:
-        return {
-            ...state,
-            value: action.value,
-        };
-    case DISCONNECT_SET:
-        return {
-            ...state,
-            value: '',
-        };
+        case ACCOUNT_ADDRESS_SET:
+            return {
+                ...state,
+                value: action.value,
+            };
+        case DISCONNECT_SET:
+            return {
+                ...state,
+                value: '',
+            };
 
-    default:
-        return state;
+        default:
+            return state;
     }
 };
 
@@ -47,29 +49,29 @@ const delegations = (state = {
     inProgress: false,
 }, action) => {
     switch (action.type) {
-    case DELEGATIONS_FETCH_IN_PROGRESS:
-        return {
-            ...state,
-            inProgress: true,
-        };
-    case DELEGATIONS_FETCH_SUCCESS:
-        return {
-            ...state,
-            inProgress: false,
-            result: action.value,
-        };
-    case DELEGATIONS_FETCH_ERROR:
-        return {
-            ...state,
-            inProgress: false,
-        };
-    case DISCONNECT_SET:
-        return {
-            ...state,
-            result: [],
-        };
-    default:
-        return state;
+        case DELEGATIONS_FETCH_IN_PROGRESS:
+            return {
+                ...state,
+                inProgress: true,
+            };
+        case DELEGATIONS_FETCH_SUCCESS:
+            return {
+                ...state,
+                inProgress: false,
+                result: action.value,
+            };
+        case DELEGATIONS_FETCH_ERROR:
+            return {
+                ...state,
+                inProgress: false,
+            };
+        case DISCONNECT_SET:
+            return {
+                ...state,
+                result: [],
+            };
+        default:
+            return state;
     }
 };
 
@@ -78,29 +80,29 @@ const balance = (state = {
     inProgress: false,
 }, action) => {
     switch (action.type) {
-    case BALANCE_FETCH_IN_PROGRESS:
-        return {
-            ...state,
-            inProgress: true,
-        };
-    case BALANCE_FETCH_SUCCESS:
-        return {
-            ...state,
-            inProgress: false,
-            result: action.value,
-        };
-    case BALANCE_FETCH_ERROR:
-        return {
-            ...state,
-            inProgress: false,
-        };
-    case DISCONNECT_SET:
-        return {
-            ...state,
-            result: [],
-        };
-    default:
-        return state;
+        case BALANCE_FETCH_IN_PROGRESS:
+            return {
+                ...state,
+                inProgress: true,
+            };
+        case BALANCE_FETCH_SUCCESS:
+            return {
+                ...state,
+                inProgress: false,
+                result: action.value,
+            };
+        case BALANCE_FETCH_ERROR:
+            return {
+                ...state,
+                inProgress: false,
+            };
+        case DISCONNECT_SET:
+            return {
+                ...state,
+                result: [],
+            };
+        default:
+            return state;
     }
 };
 
@@ -109,40 +111,40 @@ const vestingBalance = (state = {
     inProgress: false,
 }, action) => {
     switch (action.type) {
-    case VESTING_BALANCE_FETCH_IN_PROGRESS:
-        return {
-            ...state,
-            inProgress: true,
-        };
-    case VESTING_BALANCE_FETCH_SUCCESS:
-        return {
-            ...state,
-            inProgress: false,
-            result: action.value,
-        };
-    case VESTING_BALANCE_FETCH_ERROR:
-        return {
-            ...state,
-            inProgress: false,
-        };
-    case DISCONNECT_SET:
-        return {
-            ...state,
-            result: {},
-        };
-    default:
-        return state;
+        case VESTING_BALANCE_FETCH_IN_PROGRESS:
+            return {
+                ...state,
+                inProgress: true,
+            };
+        case VESTING_BALANCE_FETCH_SUCCESS:
+            return {
+                ...state,
+                inProgress: false,
+                result: action.value,
+            };
+        case VESTING_BALANCE_FETCH_ERROR:
+            return {
+                ...state,
+                inProgress: false,
+            };
+        case DISCONNECT_SET:
+            return {
+                ...state,
+                result: {},
+            };
+        default:
+            return state;
     }
 };
 
 const selectDialog = (state = false, action) => {
     switch (action.type) {
-    case SELECT_ACCOUNT_DIALOG_SHOW:
-        return true;
-    case SELECT_ACCOUNT_DIALOG_HIDE:
-        return false;
-    default:
-        return state;
+        case SELECT_ACCOUNT_DIALOG_SHOW:
+            return true;
+        case SELECT_ACCOUNT_DIALOG_HIDE:
+            return false;
+        default:
+            return state;
     }
 };
 
@@ -151,29 +153,29 @@ const unBondingDelegations = (state = {
     inProgress: false,
 }, action) => {
     switch (action.type) {
-    case UN_BONDING_DELEGATIONS_FETCH_IN_PROGRESS:
-        return {
-            ...state,
-            inProgress: true,
-        };
-    case UN_BONDING_DELEGATIONS_FETCH_SUCCESS:
-        return {
-            ...state,
-            inProgress: false,
-            result: action.value,
-        };
-    case UN_BONDING_DELEGATIONS_FETCH_ERROR:
-        return {
-            ...state,
-            inProgress: false,
-        };
-    case DISCONNECT_SET:
-        return {
-            ...state,
-            result: [],
-        };
-    default:
-        return state;
+        case UN_BONDING_DELEGATIONS_FETCH_IN_PROGRESS:
+            return {
+                ...state,
+                inProgress: true,
+            };
+        case UN_BONDING_DELEGATIONS_FETCH_SUCCESS:
+            return {
+                ...state,
+                inProgress: false,
+                result: action.value,
+            };
+        case UN_BONDING_DELEGATIONS_FETCH_ERROR:
+            return {
+                ...state,
+                inProgress: false,
+            };
+        case DISCONNECT_SET:
+            return {
+                ...state,
+                result: [],
+            };
+        default:
+            return state;
     }
 };
 
@@ -190,31 +192,53 @@ const rewards = (state = {
     inProgress: false,
 }, action) => {
     switch (action.type) {
-    case REWARDS_FETCH_IN_PROGRESS:
-        return {
-            ...state,
-            inProgress: true,
-        };
-    case REWARDS_FETCH_SUCCESS:
-        return {
-            ...state,
-            inProgress: false,
-            result: action.value,
-        };
-    case REWARDS_FETCH_ERROR:
-        return {
-            ...state,
-            inProgress: false,
-        };
-    case DISCONNECT_SET:
-        return {
-            ...state,
-            result: {},
-        };
-    default:
-        return state;
+        case REWARDS_FETCH_IN_PROGRESS:
+            return {
+                ...state,
+                inProgress: true,
+            };
+        case REWARDS_FETCH_SUCCESS:
+            return {
+                ...state,
+                inProgress: false,
+                result: action.value,
+            };
+        case REWARDS_FETCH_ERROR:
+            return {
+                ...state,
+                inProgress: false,
+            };
+        case DISCONNECT_SET:
+            return {
+                ...state,
+                result: {},
+            };
+        default:
+            return state;
     }
 };
+
+const claimRecord = (state = {
+    result: {},
+    inProgress: false,
+}, action) => {
+    switch (action.type) {
+        case CLAIM_RECORDS_FETCH_IN_PROGRESS:
+            return {
+                ...state,
+                inProgress: true,
+            };
+        case CLAIM_RECORDS_FETCH_SUCCESS:
+            return {
+                ...state,
+                inProgress: false,
+                result: action.value,
+            };
+        default:
+            return state;
+    }
+};
+
 
 export default combineReducers({
     address,
@@ -225,4 +249,6 @@ export default combineReducers({
     unBondingDelegations,
     stakeAccountAddress,
     rewards,
+    claimRecord
+
 });

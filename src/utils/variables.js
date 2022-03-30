@@ -7,6 +7,7 @@ const variables = {
         select_account: 'Select Account',
         connect_keplr: 'Connect with Keplr',
         welcome: `Welcome to the ${config.NETWORK_NAME} community`,
+        airdrop_welcome: `Welcome to the ${config.NETWORK_NAME} airdrop`,
         participate: 'Know your validators & interact with the community via governance proposals!',
         total_tokens: 'Total Tokens',
         available_tokens: 'Available Tokens',

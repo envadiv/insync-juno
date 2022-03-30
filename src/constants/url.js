@@ -7,6 +7,7 @@ export const urlFetchDelegations = (address) => `${REST_URL}/staking/delegators/
 export const urlFetchBalance = (address) => `${REST_URL}/bank/balances/${address}`;
 export const urlFetchVestingBalance = (address) => `${REST_URL}/auth/accounts/${address}`;
 export const urlFetchUnBondingDelegations = (address) => `${REST_URL}/staking/delegators/${address}/unbonding_delegations`;
+export const urlFetchClaimRecords = (address) => `${REST_URL}/passage3d/claim/v1beta1/claim_record/${address}`;
 
 export const urlFetchRewards = (address) => `${REST_URL}/distribution/delegators/${address}/rewards`;
 export const urlFetchVoteDetails = (proposalId, address) => `${REST_URL}/gov/proposals/${proposalId}/votes/${address}`;
