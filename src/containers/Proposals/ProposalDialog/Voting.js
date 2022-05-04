@@ -15,6 +15,8 @@ import {
 } from '../../../actions/stake';
 import { fetchVestingBalance, getBalance } from '../../../actions/accounts';
 import { gas } from '../../../defaultGasValues';
+const tx_3 = require("cosmjs-types/cosmos/gov/v1beta1/tx");
+
 
 const Voting = (props) => {
     const [value, setValue] = React.useState('');
@@ -43,14 +45,15 @@ const Voting = (props) => {
                 : value === 'No' ? 3
                     : value === 'NoWithVeto' ? 4 : null;
 
+
         const tx = {
             msgs: [{
                 typeUrl: '/cosmos.gov.v1beta1.MsgVote',
-                value: {
+                value: tx_3.MsgVote.fromPartial({
                     option: option,
                     proposalId: props.proposalId,
                     voter: props.address,
-                },
+                }),
             }],
             fee: {
                 amount: [{
@@ -61,6 +64,7 @@ const Voting = (props) => {
             },
             memo: '',
         };
+
 
         signTxAndBroadcast(tx, props.address, (error, result) => {
             setInProgress(false);
@@ -97,10 +101,10 @@ const Voting = (props) => {
                     e.preventDefault();
                 }}>
                 <RadioGroup name="voting" value={value} onChange={handleChange}>
-                    <FormControlLabel control={<Radio/>} label="Yes" value="Yes"/>
-                    <FormControlLabel control={<Radio/>} label="No" value="No"/>
-                    <FormControlLabel control={<Radio/>} label="NoWithVeto" value="NoWithVeto"/>
-                    <FormControlLabel control={<Radio/>} label="Abstain" value="Abstain"/>
+                    <FormControlLabel control={<Radio />} label="Yes" value="Yes" />
+                    <FormControlLabel control={<Radio />} label="No" value="No" />
+                    <FormControlLabel control={<Radio />} label="NoWithVeto" value="NoWithVeto" />
+                    <FormControlLabel control={<Radio />} label="Abstain" value="Abstain" />
                 </RadioGroup>
                 <div className="buttons_div">
                     <Button
@@ -114,7 +118,7 @@ const Voting = (props) => {
                         disabled={disable}
                         variant="contained"
                         onClick={handleVote}>
-                        {inProgress ? <CircularProgress/>
+                        {inProgress ? <CircularProgress />
                             : 'Confirm'}
                     </Button>
                 </div>
