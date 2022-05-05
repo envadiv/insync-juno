@@ -154,18 +154,15 @@ class Home extends Component {
                     this.props.address !== '' ? <div className="home padding">
                         <div className="card">
                             <div className="left_content">
-                                <h2>{variables[this.props.lang].airdrop_welcome}</h2>
                                 {this.state.inProgress && <CircularProgress className="full_screen" />}
                                 {
-                                        this.props.claimRecord['claim_record'] && this.props.claimRecord['claim_record'].address 
+                                    this.props.claimRecord['claim_record'] && this.props.claimRecord['claim_record'].address
                                         ?
-                                        <Button
-                                            onClick={() => this.handleClaimTxnKeplr(this.props.claimRecord['claim_record'].address)}
-                                            variant="contained"
-                                        >
-                                            Claim Your airdrop
-                                        </Button>
-                                        : "Sorry, you are not eligible for airdrop"
+                                        <div>
+                                            <h2>{variables[this.props.lang].airdrop_welcome}</h2>
+                                            <h2> Total Claimable Amount : {this.props.claimRecord['claim_record']?.claimable_amount.map((c) => parseInt(c.amount)).reduce((a, b) => a + b) / 1000000} PASG</h2>
+                                        </div>
+                                        : <h1 style={{ textAlign: "center" }}><b>Sorry, you are not eligible for airdrop</b></h1>
                                 }
                             </div>
                         </div>
@@ -173,29 +170,53 @@ class Home extends Component {
                 }
 
                 {
-                    this.props.address !== '' ?
+                    this.props.claimRecord['claim_record'] && this.props.claimRecord['claim_record'].address
+                        ?
                         <div className="home padding">
                             <div className="card">
                                 <ul>
-                                   <li style={{
+                                    <li style={{
                                         textAlign: 'left'
                                     }}>
-                                        Claim action - 33.33% <Close /> <Check />
+                                        <h2 className='left_content'>Initial Claim Action - 33.33%
+                                            {this.props.claimRecord['claim_record']['action_completed'][0] ? <Check /> :
+                                                <Button
+                                                    onClick={() => this.handleClaimTxnKeplr(this.props.claimRecord['claim_record'].address)}
+                                                    variant="contained"
+                                                >
+                                                    Claim Your Initial Airdrop
+                                                </Button>}
+                                        </h2>
                                     </li>
                                     <li style={{
                                         textAlign: 'left'
                                     }}>
-                                        Stake - 33.33%  <Close /> <Check  />
+                                        <h2>Stake - 33.33%
+                                            {this.props.claimRecord['claim_record']['action_completed'][1] ? <Check /> :
+                                                <Button
+                                                    onClick={() => this.props.history.push("/stake")}
+                                                    variant="contained"
+                                                >
+                                                    Stake your tokens
+                                                </Button>}
+                                        </h2>
                                     </li>
                                     <li style={{
                                         textAlign: 'left'
                                     }}>
-                                        Vote on a governance proposal - 33.34%  <Close /> <Check   />
+                                        <h2> Vote on a governance proposal - 33.34%
+                                            {this.props.claimRecord['claim_record']['action_completed'][2] ? <Check /> :
+                                                <Button
+                                                    onClick={() => this.props.history.push("/proposals")}
+                                                    variant="contained"
+                                                >
+                                                    Vote on Gov Proposals
+                                                </Button>}
+                                        </h2>
                                     </li>
                                 </ul>
                             </div>
-                        </div> : null
-                }
+                        </div> : null}
 
                 <div className="home padding">
                     <div className="card">
