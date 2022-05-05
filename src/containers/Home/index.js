@@ -39,6 +39,7 @@ import {
 } from '../../actions/stake';
 import { showMessage } from '../../actions/snackbar';
 import { MsgClaim } from '../../generated/src/proto/msg_claim';
+import { Check, CheckCircle, CheckCircleOutline, Close } from '@material-ui/icons';
 
 
 class Home extends Component {
@@ -156,18 +157,44 @@ class Home extends Component {
                                 <h2>{variables[this.props.lang].airdrop_welcome}</h2>
                                 {this.state.inProgress && <CircularProgress className="full_screen" />}
                                 {
-                                    this.props.claimRecord['claim_record'] && this.props.claimRecord['claim_record'].address ?
+                                        this.props.claimRecord['claim_record'] && this.props.claimRecord['claim_record'].address 
+                                        ?
                                         <Button
                                             onClick={() => this.handleClaimTxnKeplr(this.props.claimRecord['claim_record'].address)}
                                             variant="contained"
                                         >
                                             Claim Your airdrop
                                         </Button>
-                                        : "Sorry, you are not eligibnle for airdrop"
+                                        : "Sorry, you are not eligible for airdrop"
                                 }
                             </div>
                         </div>
                     </div> : <div></div>
+                }
+
+                {
+                    this.props.address !== '' ?
+                        <div className="home padding">
+                            <div className="card">
+                                <ul>
+                                   <li style={{
+                                        textAlign: 'left'
+                                    }}>
+                                        Claim action - 33.33% <Close /> <Check />
+                                    </li>
+                                    <li style={{
+                                        textAlign: 'left'
+                                    }}>
+                                        Stake - 33.33%  <Close /> <Check  />
+                                    </li>
+                                    <li style={{
+                                        textAlign: 'left'
+                                    }}>
+                                        Vote on a governance proposal - 33.34%  <Close /> <Check   />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> : null
                 }
 
                 <div className="home padding">
